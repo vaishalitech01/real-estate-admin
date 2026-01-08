@@ -13,6 +13,8 @@ const Navigation = () => {
 
   const navItems = [
     { path: '/dashboard/satyamDeveloper', icon: FileText, label: 'Satyam Developer' },
+    { path: '/dashboard/satyamDeveloper', icon: FileText, label: 'Lodha Developer' },
+    { path: '/dashboard/satyamDeveloper', icon: FileText, label: 'Other Developer' },
   ];
 
   const toggleMobileMenu = () => {
@@ -46,7 +48,7 @@ const Navigation = () => {
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         {/* Header */}
-        <div className="p-6 border-b border-slate-700/50 pt-20">
+        <div className="p-6 border-b border-slate-700/50 pt-20 lg:pt-6">
           <div className="flex items-center gap-3">
             <Building2 className="w-8 h-8 text-blue-400" />
             <div>
