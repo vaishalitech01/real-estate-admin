@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Dashboard from "./screens/Dashboard";
+import Home from "./screens/Home";
+import SatyamDeveloper from "./screens/SatyamDeveloper";
 
 function App() {
+  // Check if user is logged in
+  const isLoggedIn = false; 
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      {/* Home route */}
+      <Route 
+        path="/" 
+        element={isLoggedIn ? <Navigate to="/dashboard" /> : <Home />} 
+      />
+
+      {/* Dashboard routes - only accessible when logged in */}
+      {isLoggedIn ? (
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route index element={<Navigate to="satyamDeveloper" />} />
+           <Route path="satyamDeveloper" element={<SatyamDeveloper/>} />
+        </Route>
+      ) : (
+        <Route path="/dashboard/*" element={<Navigate to="/" />} />
+      )}
+
+      {/* Catch-all route */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 }
 
