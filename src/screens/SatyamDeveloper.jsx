@@ -13,7 +13,7 @@ import {
 import axios from "axios";
 
 // const baseurl = "http://localhost:6969/api";
-const baseurl = "https://api.satyammetroshowstoppers.in/";
+const baseurl = "https://api.satyammetroshowstoppers.in/api";
 
 const SatyamDeveloper = () => {
   const [search, setSearch] = useState("");
