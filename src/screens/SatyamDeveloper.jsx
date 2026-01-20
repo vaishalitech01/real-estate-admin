@@ -47,6 +47,28 @@ const SatyamDeveloper = () => {
     }
   };
 
+  const updateStatus = async (id, newStatus) => {
+    setRequests((prevRequests) =>
+      prevRequests.map((req) =>
+        req.id === id ? { ...req, status: newStatus, processedDate: new Date().toISOString() } : req
+      )
+    );
+
+    if (selectedRequest && selectedRequest.id === id) {
+      setSelectedRequest((prev) => ({ ...prev, status: newStatus, processedDate: new Date().toISOString() }));
+    }
+
+    try {
+      await axios.patch(`${baseurl}/forms/status/${id}`, { status: newStatus });
+      
+    } catch (error) {
+      console.error("Failed to update status", error);
+      alert("Failed to update status. Reverting changes...");
+      fetchforms();
+    }
+  };
+
+
   useEffect(() => {
     fetchforms();
   }, []);
@@ -159,13 +181,17 @@ const SatyamDeveloper = () => {
                   </label>
                   <div className="flex items-center gap-2">
                     {getStatusIcon(request.status)}
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-                        request.status,
-                      )}`}
-                    >
-                      {request.status.replace("-", " ").toUpperCase()}
-                    </span>
+                    <select
+  value={request.status}
+  onChange={(e) => updateStatus(request.id, e.target.value)}
+  className="bg-slate-900 border border-slate-600 text-xs px-2 py-1 rounded-lg text-white"
+>
+  <option value="in-progress">In Progress</option>
+  <option value="contacted">Contacted</option>
+  <option value="completed">Completed</option>
+  <option value="cancelled">Cancelled</option>
+</select>
+
                   </div>
                 </div>
                 <div>
