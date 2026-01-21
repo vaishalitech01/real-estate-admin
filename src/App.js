@@ -8,8 +8,7 @@ import LodhaDevelopers from "./screens/LodhaDevelopers";
 
 function App() {
   // Check if user is logged in
-  const isLoggedIn = true; 
-  
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   return (
     <Routes>
       {/* Home route */}

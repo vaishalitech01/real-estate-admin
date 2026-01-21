@@ -20,7 +20,7 @@ export default function LoginModal({ isOpen, onClose }) {
       onClose();
       window.location.reload(); // Refresh to update login state
     } else {
-      alert("Invalid credentials. Use admin@realestate.com / admin123");
+      alert("Invalid credentials. Please try again.");
     }
     
     setIsLoading(false);
@@ -73,7 +73,7 @@ export default function LoginModal({ isOpen, onClose }) {
                 id="email"
                 name="email"
                 type="email"
-                placeholder="admin@realestate.com"
+                placeholder="admin@example.com"
                 value={loginData.email}
                 onChange={handleInputChange}
                 className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 hover:border-slate-500 focus:border-blue-500 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all duration-200"
@@ -110,11 +110,11 @@ export default function LoginModal({ isOpen, onClose }) {
           </div>
 
           {/* Demo Credentials */}
-          <div className="bg-slate-700/30 border border-slate-600/50 rounded-lg p-3 text-xs text-slate-300 space-y-1">
+          {/* <div className="bg-slate-700/30 border border-slate-600/50 rounded-lg p-3 text-xs text-slate-300 space-y-1">
             <p className="font-semibold text-slate-200">Demo Credentials:</p>
             <p>Email: <span className="text-blue-400">admin@realestate.com</span></p>
             <p>Password: <span className="text-blue-400">admin123</span></p>
-          </div>
+          </div> */}
 
           {/* Sign In Button */}
           <button

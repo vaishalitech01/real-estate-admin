@@ -9,6 +9,7 @@ const Navigation = () => {
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     navigate('/');
+    window.location.reload();
   };
 
   const navItems = [
