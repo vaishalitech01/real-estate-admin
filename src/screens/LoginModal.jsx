@@ -14,9 +14,9 @@ export default function LoginModal({ isOpen, onClose }) {
     setIsLoading(true);
     
     // Simple validation for demo
-    if (loginData.email === "admin@realestate.com" && loginData.password === "admin123") {
+    if (loginData.email === "admin@realestate.com" && loginData.password === "admin@123") {
       localStorage.setItem("isLoggedIn", "true");
-      alert("Logged in successfully!");
+      // alert("Logged in successfully!");
       onClose();
       window.location.reload(); // Refresh to update login state
     } else {

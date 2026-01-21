@@ -121,7 +121,7 @@ const SatyamDeveloper = () => {
     if (!request) return null;
 
     return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-14 lg:p-4">
         <div className="bg-slate-800 border border-slate-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto mx-4">
           <div className="p-4 lg:p-6">
             <div className="flex justify-between items-start mb-4">
@@ -215,12 +215,24 @@ const SatyamDeveloper = () => {
     <div className="min-h-screen pt-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 lg:p-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-          All New Requests From Satyam Metro Shows Toppers
-        </h1>
-        <p className="text-slate-400 text-sm lg:text-base">
-          View and manage completed real estate inquiries
-        </p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+          <div>
+            <h1 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+              All New Requests From Satyam Metro Shows Toppers
+            </h1>
+            <p className="text-slate-400 text-sm lg:text-base">
+              View and manage completed real estate inquiries
+            </p>
+          </div>
+          <a 
+            href="https://satyammetroshowstoppers.in" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-lg font-semibold transition-all duration-200 text-sm whitespace-nowrap"
+          >
+            Visit Main Website
+          </a>
+        </div>
       </div>
 
       {/* Filters */}

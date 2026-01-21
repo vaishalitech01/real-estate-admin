@@ -89,14 +89,15 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Illustration Area */}
+            {/* Hero Image */}
             <div className="relative h-64 sm:h-80 lg:h-96 xl:h-full">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl blur-3xl"></div>
-              <div className="relative h-full bg-gradient-to-br from-slate-700/50 to-slate-800/50 border border-slate-700/50 rounded-2xl backdrop-blur flex items-center justify-center">
-                <div className="space-y-4 text-center p-6 sm:p-8">
-                  <Building2 className="w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 text-slate-600 mx-auto opacity-50" />
-                  <p className="text-slate-500 text-sm sm:text-base">Admin Dashboard Preview</p>
-                </div>
+              <div className="relative h-full rounded-2xl overflow-hidden">
+                <img 
+                  src="/homeImage.png" 
+                  alt="Real Estate Dashboard" 
+                  className="w-full h-full object-cover rounded-2xl"
+                />
               </div>
             </div>
           </div>
