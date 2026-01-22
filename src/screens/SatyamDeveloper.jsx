@@ -9,11 +9,13 @@ import {
   CheckCircle,
   Clock,
   XCircle,
+  Trash2,
+  AlertCircle,
 } from "lucide-react";
 import axios from "axios";
 
-// const baseurl = "http://localhost:6969/api";
-const baseurl = "https://api.satyammetroshowstoppers.in/api";
+const baseurl = "http://localhost:3001/api";
+// const baseurl = "https://api.satyammetroshowstoppers.in/api";
 
 const SatyamDeveloper = () => {
   const [search, setSearch] = useState("");
@@ -21,6 +23,8 @@ const SatyamDeveloper = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deleteModal, setDeleteModal] = useState({ show: false, requestId: null, requestName: "" });
+  const [alertModal, setAlertModal] = useState({ show: false, type: "success", title: "", message: "" });
 
   const fetchforms = async () => {
     try {
@@ -48,6 +52,11 @@ const SatyamDeveloper = () => {
     }
   };
 
+  const showAlert = (type, title, message) => {
+    setAlertModal({ show: true, type, title, message });
+    setTimeout(() => setAlertModal({ show: false, type: "success", title: "", message: "" }), 3000);
+  };
+
   const updateStatus = async (id, newStatus) => {
     setRequests((prevRequests) =>
       prevRequests.map((req) =>
@@ -73,9 +82,46 @@ const SatyamDeveloper = () => {
       await axios.patch(`${baseurl}/forms/status/${id}`, { status: newStatus });
     } catch (error) {
       console.error("Failed to update status", error);
-      alert("Failed to update status. Reverting changes...");
+      showAlert("error", "Update Failed", "Failed to update status. Reverting changes...");
       fetchforms();
     }
+  };
+
+  const handleDeleteClick = (id, name) => {
+    setDeleteModal({ show: true, requestId: id, requestName: name });
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      console.log('Attempting to delete ID:', deleteModal.requestId);
+      console.log('Delete URL:', `${baseurl}/forms/${deleteModal.requestId}`);
+      
+      // Make sure we're using the correct MongoDB _id
+      const response = await axios.delete(`${baseurl}/forms/${deleteModal.requestId}`);
+      console.log('Delete response:', response);
+      
+      // Remove from local state using the same ID
+      setRequests(prev => prev.filter(req => req.id !== deleteModal.requestId));
+      if (selectedRequest && selectedRequest.id === deleteModal.requestId) {
+        setSelectedRequest(null);
+      }
+      setDeleteModal({ show: false, requestId: null, requestName: "" });
+      showAlert("success", "Success!", "Request deleted successfully!");
+    } catch (error) {
+      console.error("Failed to delete request", error);
+      console.error("Error details:", {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        url: error.config?.url,
+        requestId: deleteModal.requestId
+      });
+      showAlert("error", "Delete Failed", `Failed to delete request: ${error.response?.status || 'Network Error'}`);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteModal({ show: false, requestId: null, requestName: "" });
   };
 
   useEffect(() => {
@@ -217,6 +263,100 @@ const SatyamDeveloper = () => {
     );
   };
 
+  const DeleteConfirmModal = () => {
+    if (!deleteModal.show) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg max-w-md w-full mx-4">
+          <div className="p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+                <Trash2 className="w-6 h-6 text-red-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-white">
+                  Delete Request
+                </h3>
+                <p className="text-slate-400 text-sm">
+                  This action cannot be undone
+                </p>
+              </div>
+            </div>
+            
+            <p className="text-slate-300 mb-6">
+              Are you sure you want to delete the request from{" "}
+              <span className="font-semibold text-white">{deleteModal.requestName}</span>?
+            </p>
+            
+            <div className="flex gap-3">
+              <button
+                onClick={handleDeleteCancel}
+                className="flex-1 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteConfirm}
+                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const AlertModal = () => {
+    if (!alertModal.show) return null;
+
+    const getAlertIcon = () => {
+      switch (alertModal.type) {
+        case "success":
+          return <CheckCircle className="w-6 h-6 text-green-400" />;
+        case "error":
+          return <XCircle className="w-6 h-6 text-red-400" />;
+        default:
+          return <AlertCircle className="w-6 h-6 text-blue-400" />;
+      }
+    };
+
+    const getAlertColors = () => {
+      switch (alertModal.type) {
+        case "success":
+          return "bg-green-500/20 border-green-500/50";
+        case "error":
+          return "bg-red-500/20 border-red-500/50";
+        default:
+          return "bg-blue-500/20 border-blue-500/50";
+      }
+    };
+
+    return (
+      <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-right duration-300">
+        <div className={`bg-slate-800 border rounded-lg p-4 max-w-sm shadow-lg ${getAlertColors()}`}>
+          <div className="flex items-center gap-3">
+            <div className="flex-shrink-0">
+              {getAlertIcon()}
+            </div>
+            <div className="flex-1">
+              <h4 className="text-white font-medium text-sm">{alertModal.title}</h4>
+              <p className="text-slate-300 text-xs mt-1">{alertModal.message}</p>
+            </div>
+            <button
+              onClick={() => setAlertModal({ show: false, type: "success", title: "", message: "" })}
+              className="text-slate-400 hover:text-slate-300 text-lg"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen pt-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 lg:p-6">
       {/* Header */}
@@ -278,9 +418,18 @@ const SatyamDeveloper = () => {
           filteredRequests.map((request) => (
             <div
               key={request.id}
-              className="bg-slate-800/50 backdrop-blur border border-slate-700/50 hover:border-blue-500/50 rounded-lg p-4 lg:p-6 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-200"
+              className="relative bg-slate-800/50 backdrop-blur border border-slate-700/50 hover:border-blue-500/50 rounded-lg p-4 lg:p-6 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-200"
             >
-              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
+              {/* Delete button - top right for mobile, bottom right for desktop */}
+              <button
+                onClick={() => handleDeleteClick(request.id, request.name)}
+                className="absolute top-3 right-3 lg:bottom-3 lg:top-auto lg:right-3 p-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 hover:text-red-300 rounded-lg transition-all duration-200 z-10"
+                title="Delete request"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+
+              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4 pr-12 lg:pr-16">
                 <div className="flex-1">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3">
                     <div className="flex items-center gap-2">
@@ -356,6 +505,8 @@ const SatyamDeveloper = () => {
         request={selectedRequest}
         onClose={() => setSelectedRequest(null)}
       />
+      <DeleteConfirmModal />
+      <AlertModal />
     </div>
   );
 };
