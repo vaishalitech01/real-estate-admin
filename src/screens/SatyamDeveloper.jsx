@@ -14,8 +14,8 @@ import {
 } from "lucide-react";
 import axios from "axios";
 
-const baseurl = "http://localhost:3001/api";
-// const baseurl = "https://api.satyammetroshowstoppers.in/api";
+// const baseurl = "http://localhost:3001/api";
+const baseurl = "https://api.satyammetroshowstoppers.in/api";
 
 const SatyamDeveloper = () => {
   const [search, setSearch] = useState("");
