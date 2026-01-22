@@ -174,7 +174,7 @@ const SatyamDeveloper = () => {
     if (!request) return null;
 
     return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-14 lg:p-4">
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
         <div className="bg-slate-800 border border-slate-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto mx-4">
           <div className="p-4 lg:p-6">
             <div className="flex justify-between items-start mb-4">
@@ -335,19 +335,19 @@ const SatyamDeveloper = () => {
     };
 
     return (
-      <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-right duration-300">
-        <div className={`bg-slate-800 border rounded-lg p-4 max-w-sm shadow-lg ${getAlertColors()}`}>
-          <div className="flex items-center gap-3">
-            <div className="flex-shrink-0">
+      <div className="fixed top-4 right-4 left-4 sm:left-auto z-50 animate-in slide-in-from-right duration-300">
+        <div className={`bg-slate-800 border rounded-lg p-3 sm:p-4 w-full sm:max-w-sm shadow-lg ${getAlertColors()}`}>
+          <div className="flex items-start gap-3">
+            <div className="flex-shrink-0 mt-0.5">
               {getAlertIcon()}
             </div>
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <h4 className="text-white font-medium text-sm">{alertModal.title}</h4>
-              <p className="text-slate-300 text-xs mt-1">{alertModal.message}</p>
+              <p className="text-slate-300 text-xs mt-1 break-words">{alertModal.message}</p>
             </div>
             <button
               onClick={() => setAlertModal({ show: false, type: "success", title: "", message: "" })}
-              className="text-slate-400 hover:text-slate-300 text-lg"
+              className="text-slate-400 hover:text-slate-300 text-lg flex-shrink-0 ml-2"
             >
               ×
             </button>
