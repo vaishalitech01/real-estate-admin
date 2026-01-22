@@ -51,24 +51,32 @@ const SatyamDeveloper = () => {
   const updateStatus = async (id, newStatus) => {
     setRequests((prevRequests) =>
       prevRequests.map((req) =>
-        req.id === id ? { ...req, status: newStatus, processedDate: new Date().toISOString() } : req
-      )
+        req.id === id
+          ? {
+              ...req,
+              status: newStatus,
+              processedDate: new Date().toISOString(),
+            }
+          : req,
+      ),
     );
 
     if (selectedRequest && selectedRequest.id === id) {
-      setSelectedRequest((prev) => ({ ...prev, status: newStatus, processedDate: new Date().toISOString() }));
+      setSelectedRequest((prev) => ({
+        ...prev,
+        status: newStatus,
+        processedDate: new Date().toISOString(),
+      }));
     }
 
     try {
       await axios.patch(`${baseurl}/forms/status/${id}`, { status: newStatus });
-      
     } catch (error) {
       console.error("Failed to update status", error);
       alert("Failed to update status. Reverting changes...");
       fetchforms();
     }
   };
-
 
   useEffect(() => {
     fetchforms();
@@ -105,17 +113,16 @@ const SatyamDeveloper = () => {
   };
 
   const filteredRequests = requests
-  .filter((request) => {
-    const matchesSearch =
-      request.name.toLowerCase().includes(search.toLowerCase()) ||
-      request.email.toLowerCase().includes(search.toLowerCase()) ||
-      request.phone.includes(search);
-    const matchesStatus =
-      statusFilter === "all" || request.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  })
-  .sort((a, b) => new Date(b.date) - new Date(a.date)); // latest first
-
+    .filter((request) => {
+      const matchesSearch =
+        request.name.toLowerCase().includes(search.toLowerCase()) ||
+        request.email.toLowerCase().includes(search.toLowerCase()) ||
+        request.phone.includes(search);
+      const matchesStatus =
+        statusFilter === "all" || request.status === statusFilter;
+      return matchesSearch && matchesStatus;
+    })
+    .sort((a, b) => new Date(b.date) - new Date(a.date)); // latest first
 
   const MessageModal = ({ request, onClose }) => {
     if (!request) return null;
@@ -183,16 +190,15 @@ const SatyamDeveloper = () => {
                   <div className="flex items-center gap-2">
                     {getStatusIcon(request.status)}
                     <select
-  value={request.status}
-  onChange={(e) => updateStatus(request.id, e.target.value)}
-  className="bg-slate-900 border border-slate-600 text-xs px-2 py-1 rounded-lg text-white"
->
-  <option value="in-progress">In Progress</option>
-  <option value="contacted">Contacted</option>
-  <option value="completed">Completed</option>
-  <option value="cancelled">Cancelled</option>
-</select>
-
+                      value={request.status}
+                      onChange={(e) => updateStatus(request.id, e.target.value)}
+                      className="bg-slate-900 border border-slate-600 text-xs px-2 py-1 rounded-lg text-white"
+                    >
+                      <option value="in-progress">In Progress</option>
+                      <option value="contacted">Contacted</option>
+                      <option value="completed">Completed</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
                   </div>
                 </div>
                 <div>
@@ -224,14 +230,15 @@ const SatyamDeveloper = () => {
               View and manage completed real estate inquiries
             </p>
           </div>
-          <a 
-            href="https://satyammetroshowstoppers.in" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-lg font-semibold transition-all duration-200 text-sm whitespace-nowrap"
-          >
-            Visit Main Website
-          </a>
+        <a
+  href="https://satyammetroshowstoppers.in"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-lg font-semibold transition-all duration-200 text-sm whitespace-nowrap"
+>
+  Visit Main Website
+</a>
+
         </div>
       </div>
 
