@@ -402,7 +402,7 @@ const GodrejVaranya = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <div>
             <h1 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-              All New Requests From Satyam Metro Shows Toppers
+              All New Requests From Godrej Varanya
             </h1>
             <p className="text-slate-400 text-sm lg:text-base">
               View and manage completed real estate inquiries
