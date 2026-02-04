@@ -16,14 +16,23 @@ import axios from "axios";
 // const baseurl = "http://localhost:3001/api";
 const baseurl = "https://api.satyammetroshowstoppers.in/api";
 
-const SatyamDeveloper = () => {
+const GodrejVaranya = () => {
   const [search, setSearch] = useState("");
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [statusFilter, setStatusFilter] = useState("all");
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [deleteModal, setDeleteModal] = useState({ show: false, requestId: null, requestName: "" });
-  const [alertModal, setAlertModal] = useState({ show: false, type: "success", title: "", message: "" });
+  const [deleteModal, setDeleteModal] = useState({
+    show: false,
+    requestId: null,
+    requestName: "",
+  });
+  const [alertModal, setAlertModal] = useState({
+    show: false,
+    type: "success",
+    title: "",
+    message: "",
+  });
 
   const fetchforms = async () => {
     try {
@@ -31,7 +40,7 @@ const SatyamDeveloper = () => {
       const response = await axios.get(`${baseurl}/forms`);
 
       const formattedData = response.data
-        .filter((item) => item.source === "satyammetroshowstoppers.in")
+        .filter((item) => item.source === "godrejkhargar.com")
         .map((item) => ({
           id: item._id,
           name: item.name,
@@ -53,7 +62,11 @@ const SatyamDeveloper = () => {
 
   const showAlert = (type, title, message) => {
     setAlertModal({ show: true, type, title, message });
-    setTimeout(() => setAlertModal({ show: false, type: "success", title: "", message: "" }), 3000);
+    setTimeout(
+      () =>
+        setAlertModal({ show: false, type: "success", title: "", message: "" }),
+      3000,
+    );
   };
 
   const updateStatus = async (id, newStatus) => {
@@ -81,7 +94,11 @@ const SatyamDeveloper = () => {
       await axios.patch(`${baseurl}/forms/status/${id}`, { status: newStatus });
     } catch (error) {
       console.error("Failed to update status", error);
-      showAlert("error", "Update Failed", "Failed to update status. Reverting changes...");
+      showAlert(
+        "error",
+        "Update Failed",
+        "Failed to update status. Reverting changes...",
+      );
       fetchforms();
     }
   };
@@ -92,15 +109,19 @@ const SatyamDeveloper = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      console.log('Attempting to delete ID:', deleteModal.requestId);
-      console.log('Delete URL:', `${baseurl}/forms/${deleteModal.requestId}`);
-      
+      console.log("Attempting to delete ID:", deleteModal.requestId);
+      console.log("Delete URL:", `${baseurl}/forms/${deleteModal.requestId}`);
+
       // Make sure we're using the correct MongoDB _id
-      const response = await axios.delete(`${baseurl}/forms/${deleteModal.requestId}`);
-      console.log('Delete response:', response);
-      
+      const response = await axios.delete(
+        `${baseurl}/forms/${deleteModal.requestId}`,
+      );
+      console.log("Delete response:", response);
+
       // Remove from local state using the same ID
-      setRequests(prev => prev.filter(req => req.id !== deleteModal.requestId));
+      setRequests((prev) =>
+        prev.filter((req) => req.id !== deleteModal.requestId),
+      );
       if (selectedRequest && selectedRequest.id === deleteModal.requestId) {
         setSelectedRequest(null);
       }
@@ -113,9 +134,13 @@ const SatyamDeveloper = () => {
         statusText: error.response?.statusText,
         data: error.response?.data,
         url: error.config?.url,
-        requestId: deleteModal.requestId
+        requestId: deleteModal.requestId,
       });
-      showAlert("error", "Delete Failed", `Failed to delete request: ${error.response?.status || 'Network Error'}`);
+      showAlert(
+        "error",
+        "Delete Failed",
+        `Failed to delete request: ${error.response?.status || "Network Error"}`,
+      );
     }
   };
 
@@ -282,12 +307,15 @@ const SatyamDeveloper = () => {
                 </p>
               </div>
             </div>
-            
+
             <p className="text-slate-300 mb-6">
               Are you sure you want to delete the request from{" "}
-              <span className="font-semibold text-white">{deleteModal.requestName}</span>?
+              <span className="font-semibold text-white">
+                {deleteModal.requestName}
+              </span>
+              ?
             </p>
-            
+
             <div className="flex gap-3">
               <button
                 onClick={handleDeleteCancel}
@@ -335,17 +363,28 @@ const SatyamDeveloper = () => {
 
     return (
       <div className="fixed top-4 right-4 left-4 sm:left-auto z-50 animate-in slide-in-from-right duration-300">
-        <div className={`bg-slate-800 border rounded-lg p-3 sm:p-4 w-full sm:max-w-sm shadow-lg ${getAlertColors()}`}>
+        <div
+          className={`bg-slate-800 border rounded-lg p-3 sm:p-4 w-full sm:max-w-sm shadow-lg ${getAlertColors()}`}
+        >
           <div className="flex items-start gap-3">
-            <div className="flex-shrink-0 mt-0.5">
-              {getAlertIcon()}
-            </div>
+            <div className="flex-shrink-0 mt-0.5">{getAlertIcon()}</div>
             <div className="flex-1 min-w-0">
-              <h4 className="text-white font-medium text-sm">{alertModal.title}</h4>
-              <p className="text-slate-300 text-xs mt-1 break-words">{alertModal.message}</p>
+              <h4 className="text-white font-medium text-sm">
+                {alertModal.title}
+              </h4>
+              <p className="text-slate-300 text-xs mt-1 break-words">
+                {alertModal.message}
+              </p>
             </div>
             <button
-              onClick={() => setAlertModal({ show: false, type: "success", title: "", message: "" })}
+              onClick={() =>
+                setAlertModal({
+                  show: false,
+                  type: "success",
+                  title: "",
+                  message: "",
+                })
+              }
               className="text-slate-400 hover:text-slate-300 text-lg flex-shrink-0 ml-2"
             >
               ×
@@ -369,15 +408,14 @@ const SatyamDeveloper = () => {
               View and manage completed real estate inquiries
             </p>
           </div>
-        <a
-  href="https://satyammetroshowstoppers.in"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-lg font-semibold transition-all duration-200 text-sm whitespace-nowrap"
->
-  Visit Main Website
-</a>
-
+          <a
+            href="https://godrejkhargar.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-lg font-semibold transition-all duration-200 text-sm whitespace-nowrap"
+          >
+            Visit Main Website
+          </a>
         </div>
       </div>
 
@@ -510,4 +548,4 @@ const SatyamDeveloper = () => {
   );
 };
 
-export default SatyamDeveloper;
+export default GodrejVaranya;

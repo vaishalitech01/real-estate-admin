@@ -4,7 +4,7 @@ import Dashboard from "./screens/Dashboard";
 import Home from "./screens/Home";
 import SatyamDeveloper from "./screens/SatyamDeveloper";
 import ThereachAddress from "./screens/ThreachAddress";
-import LodhaDevelopers from "./screens/LodhaDevelopers";
+import GodrejVaranya from "./screens/GodrejVaranya";
 
 function App() {
   // Check if user is logged in
@@ -23,7 +23,7 @@ function App() {
           <Route index element={<Navigate to="satyamDeveloper" />} />
            <Route path="satyamDeveloper" element={<SatyamDeveloper/>} />
             <Route path="thereachAddress" element={<ThereachAddress/>} />
-             <Route path="lodhaDevelopers" element={<LodhaDevelopers/>} />
+             <Route path="godrejVaranya" element={<GodrejVaranya/>} />
         </Route>
       ) : (
         <Route path="/dashboard/*" element={<Navigate to="/" />} />

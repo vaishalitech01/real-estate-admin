@@ -14,7 +14,7 @@ const Navigation = () => {
 
   const navItems = [
     { path: '/dashboard/satyamDeveloper', icon: FileText, label: 'Satyam Developer' },
-    { path: '/dashboard/lodhaDevelopers', icon: FileText, label: 'Lodha Developer' },
+    { path: '/dashboard/godrejVaranya', icon: FileText, label: 'Godrej Varanya' },
     { path: '/dashboard/thereachAddress', icon: FileText, label: 'Other Developer' },
   ];
 
